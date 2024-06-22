@@ -1,30 +1,15 @@
 package dev.khaliuk.ccgit;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import dev.khaliuk.ccgit.handler.HandlerFactory;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class Main {
-    public static void main(String[] args) {
-
-        final String command = args[0];
-
-        switch (command) {
-            case "init" -> {
-                final File root = new File(".git");
-                new File(root, "objects").mkdirs();
-                new File(root, "refs").mkdirs();
-                final File head = new File(root, "HEAD");
-
-                try {
-                    head.createNewFile();
-                    Files.write(head.toPath(), "ref: refs/heads/main\n".getBytes());
-                    System.out.println("Initialized git directory");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            default -> System.out.println("Unknown command: " + command);
-        }
+    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException,
+        InstantiationException, IllegalAccessException {
+        var handlerFactory = new HandlerFactory();
+        var commandName = args[0].replace('-', '_').toUpperCase();
+        handlerFactory.getHandler(commandName)
+            .handle(args);
     }
 }
