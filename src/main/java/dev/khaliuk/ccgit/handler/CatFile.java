@@ -14,7 +14,7 @@ public class CatFile implements Handler {
         var path = Paths.get(".git/objects", dir, file);
 
         try {
-            var raw = Files.readAllBytes(path);
+            var raw = Files.readAllBytes(path); // compressed data
             var inputStream = new InflaterInputStream(new ByteArrayInputStream(raw));
             // leveraging InputStream.readAllBytes() method we can skip all the bytes up until the '\0' byte
             var current = inputStream.read();

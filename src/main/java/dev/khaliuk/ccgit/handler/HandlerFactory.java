@@ -38,6 +38,7 @@ public class HandlerFactory {
 
     enum Command {
         CAT_FILE(CatFile.class),
+        HASH_OBJECT(HashObject.class),
         INIT(Init.class);
 
         private final Class<? extends Handler> handler;
